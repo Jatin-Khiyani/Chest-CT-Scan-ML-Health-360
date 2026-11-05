@@ -1,0 +1,11 @@
+setuptools<70
+MedPy==0.4.0
+pylidc==0.2.1
+pydicom>=3.0.0
+scikit-image
+scikit-learn
+scipy
+pandas
+numpy
+tqdm>=4.42.1
+matplotlib
