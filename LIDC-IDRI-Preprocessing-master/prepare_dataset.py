@@ -77,15 +77,14 @@ class MakeDataSet:
         self.meta_records = []
         self.meta_csv_path = os.path.join(self.meta_path, 'meta_info.csv')
 
-        # Load existing meta records if resuming
-        if self.resume and os.path.exists(self.meta_csv_path):
+        # Always load existing meta records if file exists to prevent accidental loss
+        if os.path.exists(self.meta_csv_path):
             try:
                 existing_df = pd.read_csv(self.meta_csv_path, dtype={'patient_id': str, 'slice_no': str})
-                # Re-zero-pad patient_id and slice_no just in case
                 existing_df['patient_id'] = existing_df['patient_id'].astype(str).str.zfill(4)
                 existing_df['slice_no'] = existing_df['slice_no'].astype(str).str.zfill(3)
                 self.meta_records = existing_df.to_dict('records')
-                print(f"Loaded {len(self.meta_records)} existing meta records for resume.")
+                print(f"Loaded {len(self.meta_records)} existing meta records.")
             except Exception as e:
                 print(f"Warning: Could not read existing meta_info.csv: {e}")
 
@@ -151,6 +150,12 @@ class MakeDataSet:
                 for nodule_idx, nodule in enumerate(nodules_annotation):
                     mask, cbbox, masks = consensus(nodule, self.c_level, self.padding)
                     lung_np_array = vol[cbbox]
+
+                    # Check for incomplete volume / slice mismatch (e.g., partial download)
+                    if lung_np_array.shape[2] != mask.shape[2]:
+                        print(f"Warning for {pid} (Nodule {nodule_idx}): volume depth {lung_np_array.shape[2]} does not match mask depth {mask.shape[2]} (incomplete DICOM slices on disk). Skipping this nodule.")
+                        continue
+
                     malignancy, cancer_label = self.calculate_malignancy(nodule)
 
                     for nodule_slice in range(mask.shape[2]):
@@ -171,9 +176,8 @@ class MakeDataSet:
                 Path(patient_clean_dir_image).mkdir(parents=True, exist_ok=True)
                 Path(patient_clean_dir_mask).mkdir(parents=True, exist_ok=True)
 
-                for slice_idx in range(vol.shape[2]):
-                    if slice_idx > 50:
-                        break
+                max_clean_slices = min(50, vol.shape[2])
+                for slice_idx in range(max_clean_slices):
                     lung_segmented_np_array = segment_lung(vol[:, :, slice_idx])
                     lung_segmented_np_array[lung_segmented_np_array == -0] = 0
                     lung_mask = np.zeros_like(lung_segmented_np_array)
