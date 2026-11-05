@@ -1,0 +1,62 @@
+# Python & Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook Checkpoints & Outputs
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+executed_output.ipynb
+
+# Model Weights & Checkpoints (large binary files)
+*.pth
+*.pt
+*.bin
+*.onnx
+*.safetensors
+best_model.pth
+best_classifier.pth
+
+# Medical Data & Large Arrays (do NOT commit gigabytes of raw/preprocessed data)
+*.dcm
+*.tcia
+*.zip
+*.tar
+*.tar.gz
+*.npy
+*.npz
+
+# Allow directory structure tracking via .gitkeep
+!/**/.gitkeep
+
+# Ignore data contents but keep directory structure
+LIDC-IDRI-Preprocessing-master/data/Image/*
+LIDC-IDRI-Preprocessing-master/data/Mask/*
+LIDC-IDRI-Preprocessing-master/data/Clean/Image/*
+LIDC-IDRI-Preprocessing-master/data/Clean/Mask/*
+lung-nodule-segmentation-classification/patches/benign/*
+lung-nodule-segmentation-classification/patches/malignant/*
+patches/
+
+# OS specific files
+Thumbs.db
+[Dd]esktop.ini
+.DS_Store
+
+# Logs
+*.log
