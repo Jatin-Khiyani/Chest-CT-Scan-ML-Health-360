@@ -31,6 +31,10 @@ executed_output.ipynb
 *.safetensors
 best_model.pth
 best_classifier.pth
+best_mednext3d.pth
+last_mednext3d.pth
+training_history_mednext3d.csv
+mednext3d_sample_prediction.png
 
 # Medical Data & Large Arrays (do NOT commit gigabytes of raw/preprocessed data)
 *.dcm
@@ -52,6 +56,8 @@ LIDC-IDRI-Preprocessing-master/data/Clean/Mask/*
 lung-nodule-segmentation-classification/patches/benign/*
 lung-nodule-segmentation-classification/patches/malignant/*
 patches/
+mednext-3d-segmentation/cubes_3d/*
+!mednext-3d-segmentation/cubes_3d/.gitkeep
 
 # OS specific files
 Thumbs.db

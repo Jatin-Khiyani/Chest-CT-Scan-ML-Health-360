@@ -82,16 +82,24 @@ Chest-CT-Scan-ML-Health-360/
 │   ├── figures/                          # Visual verification outputs
 │   └── notebook/make_label.ipynb         # Nodule labeling & exploration notebook
 │
-├── lung-nodule-segmentation-classification/ # Deep Learning Training & Inference
-│   ├── train_segmentation.py             # UNet segmentation training CLI
+├── lung-nodule-segmentation-classification/ # 2D Segmentation & Classification
+│   ├── train_segmentation.py             # 2D UNet segmentation training CLI
 │   ├── extract_patches.py                # 64x64 nodule patch extractor CLI
 │   ├── train_classifier.py               # ResNet-18 malignancy classifier CLI
-│   ├── lung-nodule-segmentation-classification.ipynb # End-to-end interactive notebook
+│   ├── lung-nodule-segmentation-classification.ipynb # Interactive notebook
 │   ├── output.png                        # Sample segmentation & classification result
-│   ├── README.md                         # Training pipeline architecture guide
-│   └── patches/                          # Extracted nodule patches
-│       ├── benign/                       # Benign crops (score <= 2)
-│       └── malignant/                    # Malignant crops (score >= 4)
+│   ├── README.md                         # 2D pipeline architecture guide
+│   └── patches/                          # Extracted nodule crops
+│
+├── mednext-3d-segmentation/              # MedNeXt (3D) Volumetric SOTA Segmentation
+│   ├── mednext_v1.py                     # Standalone MedNeXt-3D architecture (MICCAI 2023)
+│   ├── prepare_3d_dataset.py             # 3D volume cube extractor (32x64x64)
+│   ├── dataset_3d.py                     # PyTorch 3D dataset with volumetric augmentations
+│   ├── losses_3d.py                      # 3D Hybrid Dice + BCE Loss & metrics
+│   ├── train_mednext3d.py                # CUDA training with mixed-precision AMP
+│   ├── visualize_3d.py                   # Multi-planar 3D visualizer (Axial/Coronal/Sagittal)
+│   ├── README.md                         # 3D architecture & hyperparameter guide
+│   └── cubes_3d/                         # Extracted 3D cubes (.npz) & meta_3d.csv
 │
 ├── requirements.txt                      # Project-wide dependency specification
 ├── .gitignore                            # Rules for Python, PyTorch, and medical data
